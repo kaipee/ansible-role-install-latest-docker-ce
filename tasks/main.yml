@@ -1,2 +1,57 @@
 ---
-# tasks file for skel
+- name: Install latest Docker CE on Ubuntu
+  block:
+  
+    - name: Remove old Docker versions
+      apt:
+        name:
+        - docker
+        - docker-engine
+        - docker.io
+        - containerd
+        - runc
+        state: absent
+
+    - name: Install repo prerequsites
+      apt:
+        name:
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        file: /etc/apt/keyrings/docker.gpg
+        state: present
+
+    - name: Add Docker repo
+      apt_repository:
+        install_python_apt: true
+        repo: deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu
+        filename: docker
+        state: present
+
+    - name: Install the Docker Engine
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: true
+    
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: true
+
+  when: ansible_distribution == 'Ubuntu'
+  become: true
