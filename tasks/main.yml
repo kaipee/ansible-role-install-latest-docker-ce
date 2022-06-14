@@ -22,6 +22,14 @@
         state: latest
         update_cache: true
 
+    - name: Create keyring directory
+      file:
+        group: root
+        owner: root
+        mode: 0755
+        path: /etc/apt/keyrings/
+        state: directory
+
     - name: Add Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
