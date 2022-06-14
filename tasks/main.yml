@@ -36,7 +36,7 @@
         keyring: /etc/apt/keyrings/docker.gpg
         state: present
 
-    - name: Add Docker repo
+    - name: Add Docker repo amd64
       apt_repository:
         install_python_apt: true
         repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
@@ -44,7 +44,7 @@
         state: present
       when: ansible_architecture == 'x86_64'
 
-    - name: Add Docker repo
+    - name: Add Docker repo not amd64
       apt_repository:
         install_python_apt: true
         repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
