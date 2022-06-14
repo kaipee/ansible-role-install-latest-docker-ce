@@ -1,6 +1,6 @@
 # Package - Docker
 
-A brief description of the role goes here.
+Ansible Role to install Docker on Linux hosts.
 
 ## Requirements
 
